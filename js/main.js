@@ -39,6 +39,20 @@ var init = function () {
     // add eventListener for tizenhwkey (Back Button)
     document.addEventListener( 'tizenhwkey', backEvent );
     backEventListener = backEvent;
+    
+	/**
+	 * TwitterのOauth認証する
+	 * 
+	 */
+    
+	$("#oauthButton").click(function(){
+	    console.log("oauthButton clicked");
+		oauthFunc(function(oauth){
+				alert("Successed!");
+			},function(e){
+				alert("Failed!");
+			});
+	});
 };
 
 $(document).bind( 'pageinit', init );
