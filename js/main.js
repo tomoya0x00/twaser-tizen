@@ -48,12 +48,22 @@ var init = function () {
 	$("#oauthButton").click(function(){
 	    console.log("oauthButton clicked");
 		oauthFunc(function(oauth){
-				alert("Successed!");
+			    console.log("oauthFunc Successed!");
+				oauth.get("https://api.twitter.com/1.1/search/tweets.json?q=%23githubjp",
+						function(data){
+							console.log(data.text);
+						},
+						function(e){
+							console.log("oauth.get Failed!");
+							console.error(e);
+						});
 			},function(e){
-				alert("Failed!");
+				console.log("oauthFunc Failed!");
+				console.error(e);
 			});
 	});
+	
+	
 };
-
 $(document).bind( 'pageinit', init );
 $(document).unload( unregister );
