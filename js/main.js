@@ -41,11 +41,11 @@ var init = function () {
     backEventListener = backEvent;
     
 	/**
-	 * TwitterのOauth認証する
+	 * つぶやきを検索する
 	 * 
 	 */
     
-	$("#oauthButton").click(function(){
+	$("#searchButton").click(function(){
 	    console.log("oauthButton clicked");
 		oauthFunc(function(oauth){
 			    console.log("oauthFunc Successed!");
