@@ -55,8 +55,13 @@ var init = function () {
     
     $("#searchInput").change(function(){
     	var keyword = $(this).val();
-	    console.log("searchInput:" + keyword);
+	    console.log("searchInput:" + keyword);	    
 	    var tweetDisplay = new TweetDisplay();
+	    
+    	// ツイート全削除
+    	tweetDisplay.deleteAll();
+    	
+    	// 入力文字があればば検索
 	    if(keyword.length > 0) {
 	    	var tweetHelper = new TweetHelper();
 	    	tweetHelper.authenticate(function(oauth){
@@ -73,9 +78,6 @@ var init = function () {
 					console.log("oauthFunc Failed!");
 					console.error(e);
 				});
-	    } else {
-	    	// ツイート全削除
-	    	tweetDisplay.deleteAll();
 	    }
 	});
 	
