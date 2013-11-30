@@ -38,7 +38,7 @@ TweetHelper.prototype = {
 		}
 
 		// リクエストトークンの取得
-		console.log("requetToken")
+		console.log("fetchRequestToken")
 		oauth.fetchRequestToken(function(url) {
 			console.log(url)
 			// ブラウザで認証画面を表示させる
