@@ -58,11 +58,11 @@ var init = function () {
 	    var tweetHelper = new TweetHelper();
 	    tweetHelper.authenticate(function(oauth){
 			    console.log("oauthFunc Successed!");
-				oauth.getJSON("https://api.twitter.com/1.1/search/tweets.json?callback=?&q=%23githubjp",
-						function(results){
-							var tweetDisplay = new TweetDisplay();
-							tweetDisplay.addTweets(results.statuses);
-						},
+			    var tweetDisplay = new TweetDisplay();
+			    tweetHelper.search("#githubjp", 
+			    		function(result) {
+			    			tweetDisplay.addTweets(result.statuses);
+			    		},
 						function(e){
 							console.log("oauth.get Failed!");
 							console.error(e);

@@ -1,4 +1,5 @@
 var TweetHelper = function() {
+	var oauth;
 };
 	
 TweetHelper.prototype = {
@@ -23,7 +24,7 @@ TweetHelper.prototype = {
 		}
 		
 		// oauthの新規作成
-		var oauth = OAuth(options);
+		oauth = OAuth(options);
 
 		var onerror = function(e) {
 			console.error(e)
@@ -61,7 +62,15 @@ TweetHelper.prototype = {
 		}, onerror)
 	},
 	search: function(keyword, successCallback, errorCallback) {
-		
+		// todo:oauthはクラス内の変数としよう
+		oauth && oauth.getJSON("https://api.twitter.com/1.1/search/tweets.json?callback=?&q=" + encodeURIComponent(keyword),
+				function(result){
+					successCallback && successCallback(result);
+					return;
+				},
+				function(e){
+					errorCallback && errorCallback(e);
+				});
 	}
 };
 
