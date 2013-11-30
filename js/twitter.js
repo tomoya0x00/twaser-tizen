@@ -87,9 +87,13 @@ TweetDisplay.prototype = {
 					created_at = item.created_at;
 					avataar = item.user.profile_image_url;
 					created_at = created_at.split(" "); // create list item template
-					$("#tweetList li:first").append('<li><img style="margin:1%;" src="'+avataar+'" /><h4>'+screenname+'</h4><p>'+tweet+'</p><p class="light-text">'+created_at[1]+' '+created_at[2]+'</p></li>'); 
+					$("#tweetList").append('<li><img style="margin:1%;" src="'+avataar+'" /><h4>'+screenname+'</h4><p>'+tweet+'</p><p class="light-text">'+created_at[1]+' '+created_at[2]+'</p></li>');
 				}
 				$("#tweetList").listview("refresh");
 			});
+		},
+		deleteAll: function() {
+			$("#tweetList").children().remove();
+			$("#tweetList").listview("refresh");
 		}
 };

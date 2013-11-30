@@ -53,25 +53,30 @@ var init = function () {
 	 * 
 	 */
     
-	$("#searchButton").click(function(){
-	    console.log("oauthButton clicked");
-	    var tweetHelper = new TweetHelper();
-	    tweetHelper.authenticate(function(oauth){
+    $("#searchInput").change(function(){
+    	var keyword = $(this).val();
+	    console.log("searchInput:" + keyword);
+	    var tweetDisplay = new TweetDisplay();
+	    if(keyword.length > 0) {
+	    	var tweetHelper = new TweetHelper();
+	    	tweetHelper.authenticate(function(oauth){
 			    console.log("oauthFunc Successed!");
-				var keyword = window.prompt("Please enter search keyword", "");
-			    var tweetDisplay = new TweetDisplay();
 			    tweetHelper.search(keyword, 
-			    		function(result) {
-			    			tweetDisplay.addTweets(result.statuses);
-			    		},
-						function(e){
-							console.log("oauth.get Failed!");
-							console.error(e);
-						});
-			},function(e){
-				console.log("oauthFunc Failed!");
-				console.error(e);
-			});
+		    		function(result) {
+		    			tweetDisplay.addTweets(result.statuses);
+		    		},
+					function(e){
+						console.log("oauth.get Failed!");
+						console.error(e);
+					});
+				},function(e){
+					console.log("oauthFunc Failed!");
+					console.error(e);
+				});
+	    } else {
+	    	// ツイート全削除
+	    	tweetDisplay.deleteAll();
+	    }
 	});
 	
 	
