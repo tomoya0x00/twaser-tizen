@@ -40,6 +40,14 @@ var init = function () {
     document.addEventListener( 'tizenhwkey', backEvent );
     backEventListener = backEvent;
     
+    var unregister = function() {
+        if ( backEventListener !== null ) {
+            document.removeEventListener( 'tizenhwkey', backEventListener );
+            backEventListener = null;
+            window.tizen.application.getCurrentApplication().exit();
+        }
+    }
+    
 	/**
 	 * つぶやきを検索する
 	 * 
@@ -47,7 +55,8 @@ var init = function () {
     
 	$("#searchButton").click(function(){
 	    console.log("oauthButton clicked");
-		oauthFunc(function(oauth){
+	    var tweetHelper = new TweetHelper();
+	    tweetHelper.authenticate(function(oauth){
 			    console.log("oauthFunc Successed!");
 				oauth.getJSON("https://api.twitter.com/1.1/search/tweets.json?callback=?&q=%23githubjp",
 						function(data){
