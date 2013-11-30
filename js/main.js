@@ -1,4 +1,5 @@
 var backEventListener = null;
+var tweetAutoUpdater = new TweetAutoUpdater();
 
 var unregister = function() {
     if ( backEventListener !== null ) {
@@ -58,7 +59,8 @@ var init = function () {
 	    console.log("searchInput:" + keyword);	    
 	    var tweetDisplay = new TweetDisplay();
 	    
-    	// ツイート全削除
+    	// 自動更新停止とツイート全削除
+	    tweetAutoUpdater.stop();
     	tweetDisplay.deleteAll();
     	
     	// 入力文字があればば検索
@@ -68,7 +70,9 @@ var init = function () {
 			    console.log("oauthFunc Successed!");
 			    tweetHelper.search(keyword, 
 		    		function(result) {
+			    		// ツイート表示と自動更新開始
 		    			tweetDisplay.addTweets(result.statuses);
+		    		    tweetAutoUpdater.start(keyword);
 		    		},
 					function(e){
 						console.log("oauth.get Failed!");

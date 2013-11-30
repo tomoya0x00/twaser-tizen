@@ -104,3 +104,29 @@ TweetDisplay.prototype = {
 			$("#tweetList").listview("refresh");
 		}
 };
+
+var TweetAutoUpdater = function() {
+	this.timerID;
+};
+
+var checkUpdate = function(keyword) {
+	console.log("checkUpdate:" + keyword);
+};
+
+TweetAutoUpdater.prototype = {
+	start: function(keyword) {
+		if(this.timerID) {
+			console.log("Already running timer! ID:" + this.timerID);
+		} else {
+			this.timerID = setInterval(function(){ checkUpdate(keyword); }, 5000);
+			console.log("Start timer! ID:" + this.timerID);
+		}	
+	},
+	stop: function() {
+		if(this.timerID) {
+			clearInterval(this.timerID);	
+			console.log("Stop timer! ID:" + this.timerID);
+			this.timerID = null;
+		}
+	}
+};
