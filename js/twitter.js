@@ -62,7 +62,6 @@ TweetHelper.prototype = {
 		}, onerror)
 	},
 	search: function(keyword, successCallback, errorCallback) {
-		// todo:oauthはクラス内の変数としよう
 		oauth && oauth.getJSON("https://api.twitter.com/1.1/search/tweets.json?callback=?&q=" + encodeURIComponent(keyword),
 				function(result){
 					successCallback && successCallback(result);

@@ -58,8 +58,9 @@ var init = function () {
 	    var tweetHelper = new TweetHelper();
 	    tweetHelper.authenticate(function(oauth){
 			    console.log("oauthFunc Successed!");
+				var keyword = window.prompt("Please enter search keyword", "");
 			    var tweetDisplay = new TweetDisplay();
-			    tweetHelper.search("#githubjp", 
+			    tweetHelper.search(keyword, 
 			    		function(result) {
 			    			tweetDisplay.addTweets(result.statuses);
 			    		},
