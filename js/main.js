@@ -59,20 +59,9 @@ var init = function () {
 	    tweetHelper.authenticate(function(oauth){
 			    console.log("oauthFunc Successed!");
 				oauth.getJSON("https://api.twitter.com/1.1/search/tweets.json?callback=?&q=%23githubjp",
-						function(data){
-							$(data.statuses).each(function(index, item){
-								if(item.text !== undefined) {
-									console.log(item.user.screen_name);
-									screenname = item.user.screen_name;
-									realname = item.user.name;
-									tweet = item.text;
-									created_at = item.created_at;
-									avataar = item.user.profile_image_url;
-									created_at = created_at.split(" "); // create list item template
-									$("#tweetList li:first").append('<li><img style="margin:1%;" src="'+avataar+'" /><h4>'+screenname+'</h4><p>'+tweet+'</p><p class="light-text">'+created_at[1]+' '+created_at[2]+'</p></li>'); 
-								}
-								$("#tweetList").listview("refresh"); 
-							});
+						function(results){
+							var tweetDisplay = new TweetDisplay();
+							tweetDisplay.addTweets(results.statuses);
 						},
 						function(e){
 							console.log("oauth.get Failed!");
