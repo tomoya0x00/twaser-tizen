@@ -109,8 +109,18 @@ var TweetAutoUpdater = function() {
 	this.timerID;
 };
 
-var checkUpdate = function(keyword) {
+var checkUpdate = function(keyword, helper, display) {
 	console.log("checkUpdate:" + keyword);
+    helper.search(keyword, 
+    	function(result) {
+	    	// ツイート全更新
+    		display.deleteAll();
+    		display.addTweets(result.statuses);
+    	},
+		function(e){
+			console.log("oauth.get Failed!");
+			console.error(e);
+		});
 };
 
 TweetAutoUpdater.prototype = {
@@ -118,7 +128,7 @@ TweetAutoUpdater.prototype = {
 		if(this.timerID) {
 			console.log("Already running timer! ID:" + this.timerID);
 		} else {
-			this.timerID = setInterval(function(){ checkUpdate(keyword); }, 5000);
+			this.timerID = setInterval(function(){ checkUpdate(keyword, new TweetHelper(), new TweetDisplay()); }, 10000);
 			console.log("Start timer! ID:" + this.timerID);
 		}	
 	},
