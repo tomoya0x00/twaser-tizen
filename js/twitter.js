@@ -87,7 +87,7 @@ TweetDisplay.prototype = {
 		addTweets: function(tweets) {
 			$(tweets).each(function(index, item) {
 				if(item.text !== undefined) {
-					console.log(item.user.screen_name);
+					//console.log(item.user.screen_name);
 					screenname = item.user.screen_name;
 					realname = item.user.name;
 					tweet = item.text;
@@ -109,13 +109,17 @@ var TweetAutoUpdater = function() {
 	this.timerID;
 };
 
-var checkUpdate = function(keyword, helper, display) {
+// TweetHelperとTweetDisplayはグローバルでインスタンス化しとく
+var tweetHelper = new TweetHelper();
+var tweetDisplay = new TweetDisplay();
+
+var checkUpdate = function(keyword) {
 	console.log("checkUpdate:" + keyword);
-    helper.search(keyword, 
+	tweetHelper.search(keyword, 
     	function(result) {
 	    	// ツイート全更新
-    		display.deleteAll();
-    		display.addTweets(result.statuses);
+			tweetDisplay.deleteAll();
+			tweetDisplay.addTweets(result.statuses);
     	},
 		function(e){
 			console.log("oauth.get Failed!");
@@ -128,7 +132,7 @@ TweetAutoUpdater.prototype = {
 		if(this.timerID) {
 			console.log("Already running timer! ID:" + this.timerID);
 		} else {
-			this.timerID = setInterval(function(){ checkUpdate(keyword, new TweetHelper(), new TweetDisplay()); }, 10000);
+			this.timerID = setInterval(function(){ checkUpdate(keyword); }, 10000);
 			console.log("Start timer! ID:" + this.timerID);
 		}	
 	},

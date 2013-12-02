@@ -57,7 +57,6 @@ var init = function () {
     $("#searchInput").change(function(){
     	var keyword = $(this).val();
 	    console.log("searchInput:" + keyword);	    
-	    var tweetDisplay = new TweetDisplay();
 	    
     	// 自動更新停止とツイート全削除
 	    tweetAutoUpdater.stop();
@@ -65,7 +64,6 @@ var init = function () {
     	
     	// 入力文字があればば検索
 	    if(keyword.length > 0) {
-	    	var tweetHelper = new TweetHelper();
 	    	tweetHelper.authenticate(function(oauth){
 			    console.log("oauthFunc Successed!");
 			    tweetHelper.search(keyword, 
