@@ -84,25 +84,25 @@ var TweetDisplay = function() {
 };
 
 TweetDisplay.prototype = {
-		addTweets: function(tweets) {
-			$(tweets).each(function(index, item) {
-				if(item.text !== undefined) {
-					//console.log(item.user.screen_name);
-					screenname = item.user.screen_name;
-					realname = item.user.name;
-					tweet = item.text;
-					created_at = item.created_at;
-					avataar = item.user.profile_image_url;
-					created_at = created_at.split(" "); // create list item template
-					$("#tweetList").append('<li><div><img class="tweet-icon" src="'+avataar+'" /><div class="tweet-header"><span>'+screenname+'</span>&emsp;<span>'+created_at[1]+' '+created_at[2]+' '+created_at[3]+'</span></div></div><span class="tweet-text">'+tweet+'</span></li>');
-				}
-				$("#tweetList").listview("refresh");
-			});
-		},
-		deleteAll: function() {
-			$("#tweetList").children().remove();
-			$("#tweetList").listview("refresh");
-		}
+	addTweets: function(tweets) {
+		$(tweets).each(function(index, item) {
+			if(item.text !== undefined) {
+				//console.log(item.user.screen_name);
+				screenname = item.user.screen_name;
+				realname = item.user.name;
+				tweet = item.text;
+				created_at = item.created_at;
+				avataar = item.user.profile_image_url;
+				created_at = created_at.split(" "); // create list item template
+				$("#tweetList").append('<li><div><img class="tweet-icon" src="'+avataar+'" /><div class="tweet-header"><span>'+screenname+'</span>&emsp;<span>'+created_at[1]+' '+created_at[2]+' '+created_at[3]+'</span></div></div><span class="tweet-text">'+tweet+'</span></li>');
+			}
+		});
+		$("#tweetList").listview("refresh");
+	},
+	deleteAll: function() {
+		$("#tweetList").children().remove();
+		$("#tweetList").listview("refresh");
+	}
 };
 
 var TweetAutoUpdater = function() {
