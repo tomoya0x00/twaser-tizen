@@ -1,5 +1,7 @@
+// ツイートヘルパー
 var tweetHelper = {
 	oauth: null,
+	//OAuth認証
 	authenticate: function(successCallback, errorCallback) {
 		var options = {
 				// TwitterのAPI情報
@@ -65,6 +67,7 @@ var tweetHelper = {
 			}, onerror);
 		}, onerror)
 	},
+	// ツイート検索
 	search: function(keyword, since, successCallback, errorCallback) {
 		var searchURI = "https://api.twitter.com/1.1/search/tweets.json?callback=?&q=" + encodeURIComponent(keyword);
 
@@ -85,31 +88,36 @@ var tweetHelper = {
 	}
 };
 
+// ツイート表示
 var tweetDisplay = {
+	// ツイートを表示
 	addTweets: function(tweets) {
 		$(tweets).each(function(index, item) {
 			if(item.text !== undefined) {
 				//console.log(item.user.screen_name);
-				screenname = item.user.screen_name;
-				realname = item.user.name;
-				tweet = item.text;
-				created_at = item.created_at;
-				avataar = item.user.profile_image_url;
-				created_at = created_at.split(" "); // create list item template
+				var screenname = item.user.screen_name;
+				var realname = item.user.name;
+				var tweet = item.text;
+				var created_at = item.created_at;
+				var avataar = item.user.profile_image_url;
+				var created_at = created_at.split(" "); // create list item template
 				$("#tweetList").append('<li><div><img class="tweet-icon" src="'+avataar+'" /><div class="tweet-header"><span>'+screenname+'</span>&emsp;<span>'+created_at[1]+' '+created_at[2]+' '+created_at[3]+'</span></div></div><span class="tweet-text">'+tweet+'</span></li>');
 			}
 		});
 		$("#tweetList").listview("refresh");
 	},
+	// 表示しているツイートを全削除
 	deleteAll: function() {
 		$("#tweetList").children().remove();
 		$("#tweetList").listview("refresh");
 	}
 };
 
+// ツイート自動更新
 var tweetAutoUpdater = {
 	timerID: null,
 	sinceID: null,
+	// ツイート更新チェックと表示
 	checkUpdate: function(keyword) {
 		console.log("checkUpdate:" + keyword);
 		var self = this;
@@ -120,7 +128,7 @@ var tweetAutoUpdater = {
 	    			// 取得したツイートがあれば更新
 	    			console.log("since:" + result.statuses[0].id_str);
 	    			self.sinceID = result.statuses[0].id_str;
-	    			tweetDisplay.deleteAll();
+	    			//tweetDisplay.deleteAll();
 	    			tweetDisplay.addTweets(result.statuses);
 	    		}
 			},
@@ -129,6 +137,7 @@ var tweetAutoUpdater = {
 				console.error(e);
 			});
 	},
+	// ツイート自動更新スタート
 	start: function(keyword, since) {		
 		if(this.timerID) {
 			console.log("Already running timer! ID:" + this.timerID);
@@ -138,6 +147,7 @@ var tweetAutoUpdater = {
 			console.log("Start timer! ID:" + this.timerID + " sinceID:" + this.sinceID);
 		}	
 	},
+	// ツイート自動更新ストップ
 	stop: function() {
 		if(this.timerID) {
 			clearInterval(this.timerID);	
