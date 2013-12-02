@@ -65,11 +65,18 @@ var init = function () {
 	    if(keyword.length > 0) {
 	    	tweetHelper.authenticate(function(oauth){
 			    console.log("oauthFunc Successed!");
-			    tweetHelper.search(keyword, 
+			    tweetHelper.search(keyword, null,
 		    		function(result) {
-			    		// ツイート表示と自動更新開始
-		    			tweetDisplay.addTweets(result.statuses);
-		    		    tweetAutoUpdater.start(keyword);
+			    		console.log("statuses.length:" + result.statuses.length);
+			    		if(0 < result.statuses.length) {
+			    			// 取得したツイートがあれば、表示と自動更新開始
+			    			tweetDisplay.addTweets(result.statuses);
+			    			console.log("since:" + result.statuses[0].id_str);
+			    			tweetAutoUpdater.start(keyword, result.statuses[0].id_str);
+			    		} else {
+			    			// 取得したツイートが無ければ、自動更新だけ開始
+			    			tweetAutoUpdater.start(keyword, null);
+			    		}
 		    		},
 					function(e){
 						console.log("oauth.get Failed!");

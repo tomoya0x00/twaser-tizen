@@ -65,8 +65,16 @@ var tweetHelper = {
 			}, onerror);
 		}, onerror)
 	},
-	search: function(keyword, successCallback, errorCallback) {
-		oauth && oauth.getJSON("https://api.twitter.com/1.1/search/tweets.json?callback=?&q=" + encodeURIComponent(keyword),
+	search: function(keyword, since, successCallback, errorCallback) {
+		var searchURI = "https://api.twitter.com/1.1/search/tweets.json?callback=?&q=" + encodeURIComponent(keyword);
+
+		if(since) {
+			searchURI += "&since_id=";
+			searchURI += since;
+			console.log("search since_id=" + since);
+		}
+		
+		oauth && oauth.getJSON(searchURI,
 				function(result){
 					successCallback && successCallback(result);
 					return;
@@ -101,25 +109,33 @@ var tweetDisplay = {
 
 var tweetAutoUpdater = {
 	timerID: null,
+	sinceID: null,
 	checkUpdate: function(keyword) {
 		console.log("checkUpdate:" + keyword);
-		tweetHelper.search(keyword,
+		var self = this;
+		tweetHelper.search(keyword, self.sinceID,
 			function(result) {
-				// ツイート全更新
-				tweetDisplay.deleteAll();
-				tweetDisplay.addTweets(result.statuses);
+    			console.log("statuses.length:" + result.statuses.length);
+	    		if(0 < result.statuses.length) {
+	    			// 取得したツイートがあれば更新
+	    			console.log("since:" + result.statuses[0].id_str);
+	    			self.sinceID = result.statuses[0].id_str;
+	    			tweetDisplay.deleteAll();
+	    			tweetDisplay.addTweets(result.statuses);
+	    		}
 			},
 			function(e){
 				console.log("oauth.get Failed!");
 				console.error(e);
 			});
 	},
-	start: function(keyword) {
+	start: function(keyword, since) {		
 		if(this.timerID) {
 			console.log("Already running timer! ID:" + this.timerID);
 		} else {
-			this.timerID = setInterval(this.checkUpdate.bind(this, keyword), 10000);
-			console.log("Start timer! ID:" + this.timerID);
+			this.sinceID = since;
+			this.timerID = setInterval(tweetAutoUpdater.checkUpdate.bind(tweetAutoUpdater, keyword), 10000);
+			console.log("Start timer! ID:" + this.timerID + " sinceID:" + this.sinceID);
 		}	
 	},
 	stop: function() {
