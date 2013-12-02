@@ -1,5 +1,4 @@
 var backEventListener = null;
-var tweetAutoUpdater = new TweetAutoUpdater();
 
 var unregister = function() {
     if ( backEventListener !== null ) {

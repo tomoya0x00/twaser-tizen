@@ -1,8 +1,5 @@
-var TweetHelper = function() {
-	var oauth;
-};
-	
-TweetHelper.prototype = {
+var tweetHelper = {
+	oauth: null,
 	authenticate: function(successCallback, errorCallback) {
 		var options = {
 				// TwitterのAPI情報
@@ -80,10 +77,7 @@ TweetHelper.prototype = {
 	}
 };
 
-var TweetDisplay = function() {
-};
-
-TweetDisplay.prototype = {
+var tweetDisplay = {
 	addTweets: function(tweets) {
 		$(tweets).each(function(index, item) {
 			if(item.text !== undefined) {
@@ -105,34 +99,26 @@ TweetDisplay.prototype = {
 	}
 };
 
-var TweetAutoUpdater = function() {
-	this.timerID;
-};
-
-// TweetHelperとTweetDisplayはグローバルでインスタンス化しとく
-var tweetHelper = new TweetHelper();
-var tweetDisplay = new TweetDisplay();
-
-var checkUpdate = function(keyword) {
-	console.log("checkUpdate:" + keyword);
-	tweetHelper.search(keyword, 
-    	function(result) {
-	    	// ツイート全更新
-			tweetDisplay.deleteAll();
-			tweetDisplay.addTweets(result.statuses);
-    	},
-		function(e){
-			console.log("oauth.get Failed!");
-			console.error(e);
-		});
-};
-
-TweetAutoUpdater.prototype = {
+var tweetAutoUpdater = {
+	timerID: null,
+	checkUpdate: function(keyword) {
+		console.log("checkUpdate:" + keyword);
+		tweetHelper.search(keyword,
+			function(result) {
+				// ツイート全更新
+				tweetDisplay.deleteAll();
+				tweetDisplay.addTweets(result.statuses);
+			},
+			function(e){
+				console.log("oauth.get Failed!");
+				console.error(e);
+			});
+	},
 	start: function(keyword) {
 		if(this.timerID) {
 			console.log("Already running timer! ID:" + this.timerID);
 		} else {
-			this.timerID = setInterval(function(){ checkUpdate(keyword); }, 10000);
+			this.timerID = setInterval(this.checkUpdate.bind(this, keyword), 10000);
 			console.log("Start timer! ID:" + this.timerID);
 		}	
 	},
