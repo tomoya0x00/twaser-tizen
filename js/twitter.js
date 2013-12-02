@@ -92,7 +92,9 @@ var tweetHelper = {
 var tweetDisplay = {
 	// ツイートを表示
 	addTweets: function(tweets) {
-		$(tweets).each(function(index, item) {
+		var len = tweets.length;
+		while(len--) {
+			var item = tweets[len];
 			if(item.text !== undefined) {
 				//console.log(item.user.screen_name);
 				var screenname = item.user.screen_name;
@@ -101,9 +103,9 @@ var tweetDisplay = {
 				var created_at = item.created_at;
 				var avataar = item.user.profile_image_url;
 				var created_at = created_at.split(" "); // create list item template
-				$("#tweetList").append('<li><div><img class="tweet-icon" src="'+avataar+'" /><div class="tweet-header"><span>'+screenname+'</span>&emsp;<span>'+created_at[1]+' '+created_at[2]+' '+created_at[3]+'</span></div></div><span class="tweet-text">'+tweet+'</span></li>');
+				$("#tweetList").prepend('<li><div><img class="tweet-icon" src="'+avataar+'" /><div class="tweet-header"><span>'+screenname+'</span>&emsp;<span>'+created_at[1]+' '+created_at[2]+' '+created_at[3]+'</span></div></div><span class="tweet-text">'+tweet+'</span></li>');
 			}
-		});
+		};
 		$("#tweetList").listview("refresh");
 	},
 	// 表示しているツイートを全削除
@@ -128,7 +130,6 @@ var tweetAutoUpdater = {
 	    			// 取得したツイートがあれば更新
 	    			console.log("since:" + result.statuses[0].id_str);
 	    			self.sinceID = result.statuses[0].id_str;
-	    			//tweetDisplay.deleteAll();
 	    			tweetDisplay.addTweets(result.statuses);
 	    		}
 			},
