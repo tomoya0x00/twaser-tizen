@@ -48,6 +48,27 @@ var init = function () {
         }
     }
     
+    document.addEventListener('webkitvisibilitychange', onVisibility, false);
+    function onVisibility() {
+        console.log( document.webkitVisibilityState );
+        if (document.hidden || document.webkitHidden) {
+            // paused
+            console.log("app in background");
+        	// 画面消灯防止を解除
+        	tizen.power.release("SCREEN");
+        }
+        else {
+            // resumed
+            console.log("app in foreground");
+            // ツイート自動更新中なら、画面消灯を防止
+            if (tweetAutoUpdater.isRunning()) {
+	    		// 画面消灯を防止
+            	console.log("tizen.power.request");
+	    		tizen.power.request("SCREEN", "SCREEN_NORMAL");
+            }
+        }
+    }
+    
 	/**
 	 * つぶやきを検索する
 	 * 
@@ -60,6 +81,9 @@ var init = function () {
     	// 自動更新停止とツイート全削除
 	    tweetAutoUpdater.stop();
     	tweetDisplay.deleteAll();
+    	
+    	// 画面消灯防止を解除
+    	tizen.power.release("SCREEN");
     	
     	// 入力文字があればば検索
 	    if(keyword.length > 0) {
@@ -77,6 +101,8 @@ var init = function () {
 			    			// 取得したツイートが無ければ、自動更新だけ開始
 			    			tweetAutoUpdater.start(keyword, null);
 			    		}
+			    		// 画面消灯を防止
+			    		tizen.power.request("SCREEN", "SCREEN_NORMAL");
 		    		},
 					function(e){
 						console.log("oauth.get Failed!");

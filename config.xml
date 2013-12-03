@@ -7,4 +7,5 @@
     <icon src="icon.png"/>
     <name>Twaser</name>
     <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+    <tizen:privilege name="http://tizen.org/privilege/power"/>
 </widget>

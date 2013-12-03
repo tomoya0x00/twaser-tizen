@@ -125,13 +125,17 @@ var tweetAutoUpdater = {
 		var self = this;
 		tweetHelper.search(keyword, self.sinceID,
 			function(result) {
-    			console.log("statuses.length:" + result.statuses.length);
-	    		if(0 < result.statuses.length) {
-	    			// 取得したツイートがあれば更新
-	    			console.log("since:" + result.statuses[0].id_str);
-	    			self.sinceID = result.statuses[0].id_str;
-	    			tweetDisplay.addTweets(result.statuses);
-	    		}
+				console.log("statuses.length:" + result.statuses.length);
+				if(0 < result.statuses.length) {
+					// 取得したツイートがあれば更新
+					console.log("since:" + result.statuses[0].id_str);
+					self.sinceID = result.statuses[0].id_str;
+					tweetDisplay.addTweets(result.statuses);
+					// 画面消灯していた場合、画面ON
+					//	if(!tizen.power.isScreenOn()) {
+					//	tizen.power.turnScreenOn();
+					//}
+				}
 			},
 			function(e){
 				console.log("oauth.get Failed!");
@@ -155,5 +159,10 @@ var tweetAutoUpdater = {
 			console.log("Stop timer! ID:" + this.timerID);
 			this.timerID = null;
 		}
+	},
+	// ツイート自動更新中か確認
+	isRunning: function() {
+		console.log("timerID:" + this.timerID);
+		return Boolean(this.timerID);
 	}
 };
