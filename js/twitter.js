@@ -131,10 +131,9 @@ var tweetAutoUpdater = {
 					console.log("since:" + result.statuses[0].id_str);
 					self.sinceID = result.statuses[0].id_str;
 					tweetDisplay.addTweets(result.statuses);
-					// 画面消灯していた場合、画面ON
-					//	if(!tizen.power.isScreenOn()) {
-					//	tizen.power.turnScreenOn();
-					//}
+					// 画面ON
+					console.log("tizen.power.turnScreenOn");
+					tizen.power.turnScreenOn();
 				}
 			},
 			function(e){

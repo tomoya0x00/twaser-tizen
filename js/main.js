@@ -54,7 +54,7 @@ var init = function () {
         if (document.hidden || document.webkitHidden) {
             // paused
             console.log("app in background");
-        	// 画面消灯防止を解除
+        	// 画面OFF防止を解除
         	tizen.power.release("SCREEN");
         }
         else {
@@ -62,9 +62,9 @@ var init = function () {
             console.log("app in foreground");
             // ツイート自動更新中なら、画面消灯を防止
             if (tweetAutoUpdater.isRunning()) {
-	    		// 画面消灯を防止
+	    		// 画面OFFを防止
             	console.log("tizen.power.request");
-	    		tizen.power.request("SCREEN", "SCREEN_NORMAL");
+	    		tizen.power.request("SCREEN", "SCREEN_DIM");
             }
         }
     }
@@ -82,7 +82,7 @@ var init = function () {
 	    tweetAutoUpdater.stop();
     	tweetDisplay.deleteAll();
     	
-    	// 画面消灯防止を解除
+    	// 画面OFF防止を解除
     	tizen.power.release("SCREEN");
     	
     	// 入力文字があればば検索
@@ -101,8 +101,8 @@ var init = function () {
 			    			// 取得したツイートが無ければ、自動更新だけ開始
 			    			tweetAutoUpdater.start(keyword, null);
 			    		}
-			    		// 画面消灯を防止
-			    		tizen.power.request("SCREEN", "SCREEN_NORMAL");
+			    		// 画面OFFを防止
+			    		tizen.power.request("SCREEN", "SCREEN_DIM");
 		    		},
 					function(e){
 						console.log("oauth.get Failed!");
