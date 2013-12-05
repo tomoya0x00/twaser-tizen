@@ -82,6 +82,7 @@ var tweetHelper = {
 var tweetDisplay = {
 	// ツイートを表示
 	addTweets: function(tweets) {
+		console.log("before tweet_num:" + $("#tweetList li").size());
 		var len = tweets.length;
 		while(len--) {
 			var item = tweets[len];
@@ -97,7 +98,13 @@ var tweetDisplay = {
 				$("#tweetList").prepend('<li><div><img class="tweet-icon" src="'+avataar+'" /><div class="tweet-header"><span>'+screenname+'</span>&emsp;<span>'+created_at[1]+' '+created_at[2]+' '+created_at[3]+'</span></div></div><span class="tweet-text">'+tweet+'</span></li>');
 			}
 		};
+		// 表示ツイート数がMAX(50)を超えていたら、古いツイートを消す
+		var tweet_num = $("#tweetList li").size()
+		if (tweet_num > 50) {
+			$("#tweetList li:gt(49)").remove();
+		}
 		$("#tweetList").listview("refresh");
+		console.log("after tweet_num:" + tweet_num);
 	},
 	// 表示しているツイートを全削除
 	deleteAll: function() {
