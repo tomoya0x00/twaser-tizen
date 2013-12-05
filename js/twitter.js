@@ -41,17 +41,7 @@ var tweetHelper = {
 		console.log("fetchRequestToken")
 		oauth.fetchRequestToken(function(url) {
 			console.log(url)
-			// ブラウザで認証画面を表示させる
-			if(typeof widget != "undefined") {
-				// running on emulator
-				var appControl = new tizen.ApplicationControl(
-						"http://tizen.org/appcontrol/operation/view", url);
-				tizen.application.launchAppControl(appControl)
-			} else {
-				// running on web simulator
-				console.log(url);
-				window.open(url, null);
-			}
+			openURL(url);
 			
 			// PINコードを入力する画面を用意
 			var pin = window.prompt("Please enter your PIN", "");
