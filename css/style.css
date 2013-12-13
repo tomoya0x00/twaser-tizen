@@ -7,3 +7,7 @@ body {
 .tweet-text { font-size: medium; }
 
 ul.narrow { margin: 1%; padding:1%; line-height:80%; }
+
+.ui-li .ui-btn-text a.ui-link-inherit {
+    white-space: normal !important;
+}

@@ -95,7 +95,7 @@ var tweetDisplay = {
 				var avataar = item.user.profile_image_url;
 				var created_at = created_at.split(" "); // create list item template
 				tweet = tweet.replace(/(http:\/\/[\x21-\x7e]+)/gi,'<a href="$1">$1</a>');
-				$("#tweetList").prepend('<li><div><img class="tweet-icon" src="'+avataar+'" /><div class="tweet-header"><span>'+screenname+'</span>&emsp;<span>'+created_at[1]+' '+created_at[2]+' '+created_at[3]+'</span></div></div><span class="tweet-text">'+tweet+'</span></li>');
+				$("#tweetList").prepend('<li><a href="#tweet"><div><img class="tweet-icon" src="'+avataar+'" /><div class="tweet-header"><span>'+screenname+'</span>&emsp;<span>'+created_at[1]+' '+created_at[2]+' '+created_at[3]+'</span></div></div><span class="tweet-text">'+tweet+'</span></a></li>');
 			}
 		};
 		// 表示ツイート数がMAX(50)を超えていたら、古いツイートを消す
