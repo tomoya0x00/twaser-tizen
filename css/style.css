@@ -11,3 +11,7 @@ ul.narrow { margin: 1%; padding:1%; line-height:80%; }
 .ui-li .ui-btn-text a.ui-link-inherit {
     white-space: normal !important;
 }
+
+.ui-icon-arrow-r{
+	display: none !important;
+}
