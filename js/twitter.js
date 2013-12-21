@@ -94,7 +94,10 @@ var tweetDisplay = {
 				var created_at = item.created_at;
 				var avataar = item.user.profile_image_url;
 				var created_at = created_at.split(" "); // create list item template
-				tweet = tweet.replace(/(http:\/\/[\x21-\x7e]+)/gi,'<a href="$1">$1</a>');
+				// URLとメンションとハッシュタグの文字色変更
+				tweet = tweet.replace(/(http:\/\/[\x21-\x7e]+)/gi,'<span class="tweet-link">$1</span>');
+				tweet = tweet.replace(/([#@]\w*[a-zA-Z_]\w*)/gi,'<span class="tweet-link">$1</span>');
+				// listviewに追加
 				$("#tweetList").prepend('<li><a href="#tweet"><div><img class="tweet-icon" src="'+avataar+'" /><div class="tweet-header"><span>'+screenname+'</span>&emsp;<span>'+created_at[1]+' '+created_at[2]+' '+created_at[3]+'</span></div></div><span class="tweet-text">'+tweet+'</span></a></li>');
 			}
 		};

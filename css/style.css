@@ -2,9 +2,23 @@ body {
 
 }
 
-.tweet-icon { float:left; margin:1%; }
-.tweet-header { font-size: medium; text-align:right; }
-.tweet-text { font-size: medium; }
+.tweet-icon {
+	float:left; margin:1%;
+}
+
+.tweet-header {
+	font-size: medium;
+	text-align:right;
+}
+
+.tweet-text {
+	font-size: medium;
+}
+
+.tweet-link {
+	font-size: medium;
+	color: #0000ff;
+}
 
 ul.narrow { margin: 1%; padding:1%; line-height:80%; }
 
@@ -12,6 +26,6 @@ ul.narrow { margin: 1%; padding:1%; line-height:80%; }
     white-space: normal !important;
 }
 
-.ui-icon-arrow-r{
+.ui-icon-arrow-r {
 	display: none !important;
 }
